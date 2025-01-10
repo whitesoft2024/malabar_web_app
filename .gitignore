@@ -1,0 +1,8 @@
+# node_modules/
+
+
+# Ignore node_modules in all folders
+node_modules/
+
+# Ignore other potential temporary or log files
+.DS_Store

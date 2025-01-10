@@ -1,0 +1,31 @@
+.input-error {
+  border: 2px solid red;
+  animation: shake 0.3s infinite alternate;
+}
+@keyframes shake {
+  0% {
+    transform: translateX(-2px);
+  }
+  100% {
+    transform: translateX(2px);
+  }
+}
+
+/* .input-error {
+  border: 2px solid red;
+  animation: shake 0.1s ease infinite;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+} */
+
+.error-message {
+  color: red;
+  font-size: 0.8em;
+  margin-top: 5px;
+}

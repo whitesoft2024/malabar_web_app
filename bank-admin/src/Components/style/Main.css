@@ -1,0 +1,224 @@
+.navbar{
+    background-color: #f1f1f1;
+}
+
+.marquee{
+    background-color: #7e909a;
+}
+
+.navbar2{
+    background-color: #488a99;
+    color: #f1f1f1;
+    padding-left: 200px; 
+    
+}
+
+#dropdown{
+    color: #f1f1f1;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#dropdown:hover{
+    background-color: #1c4e80;
+    color: #f1f1f1;
+}
+
+.navdropitem:hover{
+    background-color: #1c4e80;
+    color: #f1f1f1;
+}
+
+#submenu-teller:hover{
+    background-color:#1c4e80;
+    color: #f1f1f1;
+}
+
+#pills-home-tab, #pills-profile-tab{
+    background-color:#1c4e80;
+    color: #f1f1f1;
+    transition: background-color 0.3s, color 0.3s;
+    margin: 5px;
+}
+
+#pills-home-tab:hover, #pills-profile-tab:hover {
+    background-color:teal;
+    color: #f1f1f1;
+}
+
+.btn{
+    background-color: #488a99;
+    color: #f1f1f1;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn:hover{
+    background-color:#1c4e80;
+    color: #f1f1f1;
+}
+
+table, th, td{
+    border: 1px solid #7e909a;
+    margin-top: 30px;
+    margin-right: 20px;
+    /* background-color: #1c4e80; */
+}
+
+#thead{
+    background-color: #1c4e80;
+    color: #f1f1f1;
+}
+
+.log-reg-box{
+    width: 30%;
+    border: 1.2px solid #464343; 
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+}
+/* NotFound.css */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
+   }
+   
+   .message {
+    text-align: center;
+    font-size: 2rem;
+    color: #6c757d;
+   }
+   
+   .image-container {
+    margin-top: 2rem;
+    width: 100%;
+    max-width: 400px;
+   }
+   
+   .image {
+    width: 100%;
+    height: auto;
+   }
+
+   #legenda {
+    margin-left: 70%;
+    background-color: white;
+    padding: 5px;
+    margin-top: -10%;
+  }
+
+.entry {
+    display: flex;
+    align-items: center;
+  }
+  
+  .entry-color {
+      height: 40px;
+      width: 40px;
+  }
+  
+  .entry-text {
+    margin-left: 5px;
+    padding: 10px;
+  }
+  .text-center{
+    margin-bottom: 10%;
+
+  }
+  #color-black {
+    background-color: #488a99;
+  }
+  
+  #color-brown {
+    background-color: #1c4e80;
+  }
+
+  /* // In your CSS file or within a styled component */
+.marquee {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.marquee span {
+  display: inline-block;
+  padding-left: 100%;
+  animation: marquee 15s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.box-meter{
+    display: flex;
+    flex-direction: column;
+    margin-top: 75px;
+    width: 50px;
+    padding: 10px;
+    height: 50px;
+}
+.deposit-table{
+    margin-top: 20%;
+}
+
+
+  @media print {
+    /* Hide elements that should not appear in print */
+    .no-print {
+      display: none !important;
+    }
+  
+    /* Ensure the table uses the full width of the page */
+    table {
+      width: 100%;
+    }
+  
+    /* Add a page break after every 14 rows */
+    .page-break {
+      page-break-before: always;
+    }
+  }
+  
+  @media print {
+    /* Hide browser-added header and footer elements */
+    @page {
+      margin: 0;
+      size: auto; /* Adjust as necessary */
+    }
+  
+    body {
+      margin: 0;
+      padding: 0;
+    }
+  
+    /* Hide specific elements from print */
+    .no-print {
+      display: none;
+    }
+    table, th, td, tr ,thead{
+        border-color: #ffffff !important;
+        color: #000 !important;
+      }
+  }
+  @media print {
+    .print-hide {
+      display: none !important;
+      height: 0;
+      display: block;
+    }
+  }
+
+  .hidden-row {
+    display: none;
+  }
+
+  .trow{
+    height: 0rem;
+  }

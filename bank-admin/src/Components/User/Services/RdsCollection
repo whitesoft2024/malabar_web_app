@@ -1,0 +1,342 @@
+import React, { useState, useEffect, useContext } from 'react';
+import { Form, Col, Row, Container, Button, Table } from 'react-bootstrap';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import Nav from '../../Others/Nav';
+import axios from "axios";
+import { UserContext } from "../../Others/UserContext";
+
+function RdsCollection() {
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [newRDSdata, setNewRDSdata] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [itemsList, setItemsList] = useState([]);
+  const { user } = useContext(UserContext);
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentDate(new Date());
+    }, 1000);
+    return () => clearInterval(intervalId);
+  }, []);
+  //fetch employee
+  const [employees, setEmployees] = useState([]);
+
+  useEffect(() => {
+    fetchEmployees();
+  }, []);
+
+  const fetchEmployees = async () => {
+    try {
+      const response = await fetch('http://localhost:2000/api/employee');
+      const data = await response.json();
+
+      const branchCode = user?.branchDetails?.branchCode;
+      if (branchCode) {
+        const filteredEmployees = data.filter(employee => employee.branchCode === branchCode);
+        setEmployees(filteredEmployees);
+      } else {
+        setEmployees(data);
+      }
+    } catch (error) {
+      console.error('Error fetching employees:', error);
+    }
+  };
+
+  const handleReferenceNameChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+      addreferenceName: value,
+    });
+  };
+
+  const [formData, setFormData] = useState({
+    schemeType: '',
+    accountType: '',
+    membershipId: '',
+    RDSNumber: '',
+    customerName: '',
+    customerNumber: '',
+    address: '',
+    referenceName: '',
+    addreferenceName: '',
+    date: '',
+    amount: '',
+    newAmount: '',
+    rdsBill: '',
+    accountStatus: '',
+    transactionId: '',
+  });
+
+  const handleChangeRDS = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+      date: currentDate.toLocaleString(),
+    });
+  };
+
+  const handleAddItem = () => {
+    const itemToAdd = { ...formData, newAmount: formData.newAmount };
+    delete itemToAdd._id;
+    delete itemToAdd.__v;
+    delete itemToAdd.amount;
+    delete itemToAdd.referenceName;
+    setItemsList([...itemsList, itemToAdd]);
+    setFormData({ ...formData, newAmount: '', });
+  };
+
+  const handleRemoveLastItem = () => {
+    if (itemsList.length > 0) {
+      const updatedItemsList = [...itemsList];
+      updatedItemsList.pop();
+      setItemsList(updatedItemsList);
+    }
+  };
+
+  const submitFormData = async (item) => {
+    try {
+      const branchCode = user?.branchDetails?.branchCode;
+      let lastBillNumber = localStorage.getItem('transactionID') || `DRDS${branchCode}00000000`;
+      let numericPart = lastBillNumber.slice(8); // Start from index 8 to skip "DRDS" and branch code
+      let parsedNumber = parseInt(numericPart);
+
+      if (!isNaN(parsedNumber)) {
+        let incrementedNumber = parsedNumber + 1;
+        let RDStransactionID = `DRDS${branchCode}${incrementedNumber.toString().padStart(8, '0')}`;
+        localStorage.setItem('transactionID', RDStransactionID);
+        item.transactionId = RDStransactionID;
+      } else {
+        console.error('Invalid transaction ID format:', lastBillNumber);
+      }
+      // Make a POST request to save the form data
+      const response = await axios.post('http://localhost:2000/api/rdsEmi', item);
+      console.log('Form data saved:', response.data);
+
+      // Extract RDSNumber and amount from the item
+      const { RDSNumber, newAmount } = item;
+
+      // Make a PUT request to update the RDS data
+      const putResponse = await axios.put(`http://localhost:2000/api/rdsDataAdd/${RDSNumber}`, { amount: newAmount });
+      console.log('RDS data updated:', putResponse.data);
+    } catch (error) {
+      console.error('Error saving form data or updating RDS amount:', error);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const updatedItemsList = itemsList.map(item => ({
+        ...item,
+        RDSNumber: item.RDSNumber
+
+      }));
+
+      for (const item of updatedItemsList) {
+        await submitFormData(item);
+      }
+
+      setItemsList([]);
+      // Optionally, you can clear the addreferenceName value here
+      setFormData({ ...formData, addreferenceName: '' });
+      console.log('Form data saved/updated successfully');
+    } catch (error) {
+      console.error('Error saving/updating form data:', error);
+    }
+  };
+  // data fetching 
+
+  const [searchRDS, setSearchRDS] = useState('');
+
+  const branch = user?.branchDetails?.branchCode;
+  useEffect(() => {
+
+    fetchRDSData(currentPage, pageSize, branch, searchRDS);
+  }, [currentPage, pageSize, branch, searchRDS]);
+
+
+  const fetchRDSData = async (page, size, branch, searchRDS = '') => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get(`http://localhost:2000/api/RDSdata?page=${page}&limit=${size}&branch=${branch}&searchRDS=${searchRDS}`);
+      setNewRDSdata(response.data.data)
+    } catch (error) {
+      console.error('Error fetching memberships data:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleRDSNumberSelect = (value) => {
+    fetchData(value);
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      RDSNumber: value,
+    }));
+    setSearchRDS(value);
+    setShowDropdown(false);
+  };
+
+  const fetchData = (mobile) => {
+    const filteredCustomers = newRDSdata.filter(
+      (customer) => customer.RDSNumber === mobile
+    );
+    if (filteredCustomers.length > 0) {
+      setFormData(filteredCustomers[0]);
+      setSearchRDS(filteredCustomers[0].RDSNumber);
+    } else {
+      setFormData(null);
+    }
+  };
+
+
+  return (
+    <div className='container border rounded p-4 mt-4 mb-4"'>
+      <Nav />
+      <h2 style={{ textAlign: "center", margin: "20px" }}>RDS EMI Amount</h2>
+      <Container className="d-flex justify-content-center">
+        <Form>
+          <Row className="justify-content-md-center">
+            <Col>
+              <Form.Group controlId="input1">
+                <Form.Label>RDS Number</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Search..."
+                  style={{ width: "15rem" }}
+                  value={searchRDS}
+                  onChange={(e) => setSearchRDS(e.target.value)}
+                  onFocus={() => setShowDropdown(true)} // Show dropdown on focus
+                />
+                {showDropdown && searchRDS && (
+                  <ul className="dropdown-menu2">
+                    {newRDSdata
+                      .filter((customer) =>
+                        (customer.RDSNumber && customer.RDSNumber.toLowerCase().includes(searchRDS.toLowerCase()))
+                      )
+                      .map((customer, index) => (
+                        <li key={index} className="dropdown-item" onClick={(e) => { e.stopPropagation(); handleRDSNumberSelect(customer.RDSNumber); setShowDropdown(false); }}>
+                          {customer.customerName} - {customer.RDSNumber}
+                        </li>
+                      ))}
+                  </ul>
+                )}
+              </Form.Group>
+            </Col>
+
+            <Col xs={6}>
+              <Form.Group controlId="input2">
+                <Form.Label>Date</Form.Label>
+                <div className='form-control'>{currentDate.toLocaleString()}</div>
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row className="justify-content-md-center">
+            <Col xs={6}>
+              <Form.Group controlId="input3">
+                <Form.Label>Amount</Form.Label>
+                <input
+                  type="number"
+                  className="form-control"
+                  id="newAmount"
+                  name="newAmount"
+                  value={formData.newAmount}
+                  onChange={handleChangeRDS}
+                  placeholder=""
+                />
+              </Form.Group>
+            </Col>
+            <Col xs={6}>
+              <Form.Group controlId="input4">
+                <Form.Label>Last Bill Number</Form.Label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="rdsBill"
+                  name="rdsBill"
+                  value={formData.rdsBill}
+                  onChange={handleChangeRDS}
+                  placeholder=""
+                />
+              </Form.Group>
+            </Col>
+            <Row className="justify-content-md-center">
+              <Col md={3}>
+                <Form.Group controlId="addreferenceName">
+                  <Form.Label>Reference Name</Form.Label>
+                  <select
+                    className="form-control"
+                    value={formData.addreferenceName}
+                    name="addreferenceName"
+                    onChange={handleReferenceNameChange}
+                  >
+                    <option value="">Select an employee</option>
+                    {employees.map(employee => (
+                      <option key={employee.id} value={employee.employeeName}>{employee.employeeName}</option>
+                    ))}
+                  </select>
+                </Form.Group>
+              </Col>
+            </Row><br />
+          </Row><br />
+          <Row className="justify-content-md-center">
+            <Col xs={6}>
+              <Button style={{ marginLeft: "5rem" }} onClick={handleAddItem}><FontAwesomeIcon icon={faPlus} /></Button>
+            </Col>
+            <Col xs={6}>
+              <Button style={{ marginLeft: "5rem" }} onClick={handleRemoveLastItem}><FontAwesomeIcon icon={faMinus} /></Button>
+            </Col>
+          </Row>
+        </Form>
+      </Container>
+
+      <Container className="mt-4" style={{ margin: "0 auto", textAlign: "center", maxHeight: "400px", overflowY: "auto" }}>
+        <Table striped bordered>
+          <thead>
+            <tr>
+              <th>SLNO</th>
+              <th>PAY_DATE</th>
+              <th>NAME</th>
+              <th>MEMBERSHIP_ID</th>
+              <th>RDS_NO</th>
+              <th>AMOUNT</th>
+              <th>BILL NO</th>
+            </tr>
+          </thead>
+          <tbody>
+            {itemsList.map((item, index) => (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                <td>{item.date}</td>
+                <td>{item.customerName}</td>
+                <td>{item.membershipId}</td>
+                <td>{item.RDSNumber}</td>
+                <td>{item.newAmount}</td>
+                <td>{item.rdsBill}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </Container>
+
+      <div style={{ height: "400px" }} />
+
+      <Container className="mt-4" style={{ textAlign: "center" }}>
+        <Row className="justify-content-md-center">
+          <Col>
+            <Button variant="primary" onClick={handleSubmit}>Process</Button>
+          </Col>
+        </Row>
+      </Container>
+    </div>
+  )
+}
+
+export default RdsCollection;

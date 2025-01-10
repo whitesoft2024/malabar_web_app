@@ -1,0 +1,123 @@
+/* .branchBox{
+    width:100%;
+    height:300px;
+    margin-top:50px;
+    border-radius:20px;
+    background-color: rgb(227, 226, 225);
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    border: 1.2px solid #464343; 
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);
+}
+.rcolor{
+    background-color: #bcbc76;
+}
+.colorc{
+    background-color: aqua;
+}
+.branchhead{
+    margin-top: 20px;
+    width: 100%;
+    height: 50px;
+    background-color: #0072aa;
+    border-radius: 5px;
+}
+.labels{
+    width: 100%;
+}
+.btns{
+    background-color: #0072aa;
+    width: 100px;
+    height: 40px;
+    margin: 10px;
+    color: aliceblue;
+    align-items: center;
+    border-radius:  8px;
+    margin-top: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+.btns:hover{
+    background-color:#1c4e80;
+    color: #f1f1f1;
+}
+
+Link{
+    color: inherit; 
+    text-decoration: none;   }
+  
+    .navbar{
+        background-color: #f1f1f1;
+    }
+    
+    .marquee{
+        background-color: #7e909a;
+    }
+    
+    .navbar2{
+        background-color: #488a99;
+        color: #f1f1f1;
+        padding-left: 200px; 
+    }
+    
+    #dropdown{
+        color: #f1f1f1;
+        transition: background-color 0.3s, color 0.3s;
+    }
+    
+    #dropdown:hover{
+        background-color: #1c4e80;
+        color: #f1f1f1;
+    }
+    
+    .navdropitem:hover{
+        background-color: #1c4e80;
+        color: #f1f1f1;
+    }
+    
+    #submenu-teller:hover{
+        background-color:#1c4e80;
+        color: #f1f1f1;
+    }
+    
+    #pills-home-tab, #pills-profile-tab{
+        background-color:#1c4e80;
+        color: #f1f1f1;
+        transition: background-color 0.3s, color 0.3s;
+        margin: 5px;
+    }
+    
+    #pills-home-tab:hover, #pills-profile-tab:hover {
+        background-color:teal;
+        color: #f1f1f1;
+    }
+    
+    .btn{
+        background-color: #488a99;
+        color: #f1f1f1;
+        transition: background-color 0.3s, color 0.3s;
+    }
+    
+    .btn:hover{
+        background-color:#1c4e80;
+        color: #f1f1f1;
+    }
+    
+    table, th, td{
+        border: 1px solid #7e909a;
+        margin-top: 30px;
+        margin-right: 20px;
+    }
+    
+    #thead{
+        background-color: #1c4e80;
+        color: #f1f1f1;
+    }
+    
+    .log-reg-box{
+        border: 1.2px solid #464343; 
+        box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+    } */
+
+ 

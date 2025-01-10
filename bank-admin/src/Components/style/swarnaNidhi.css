@@ -1,0 +1,22 @@
+.pagination-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 1rem 0;
+  }
+  
+  .pagination-item {
+    margin: 0.2rem;
+    min-width: 30px;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+  }
+  
+  .content-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  

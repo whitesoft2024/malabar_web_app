@@ -1,0 +1,62 @@
+.container {
+    width: fit-content;
+}
+
+.custom-modal-width {
+    max-width: 700px;
+}
+
+.custom-modal-width2 {
+    max-width: 1000px;
+}
+
+.popovertoggler {
+    margin-left: 415px;
+    margin-top: 35px;
+}
+
+.popover {
+    border: none;
+
+    margin-top: 90px;
+}
+
+.Maturity-Withdrawal {
+    padding-left: 26px;
+    padding-right: 26px;
+    margin-bottom: 10px;
+}
+
+.popoverbody {
+    /* background-color: cyan; */
+    max-width: 230px;
+}
+
+.Popovermol {
+    overflow: hidden;
+    z-index: 1050;
+    /* Adjust the z-index as needed */
+}
+
+.Popovermol .popover {
+    overflow: hidden;
+    z-index: 1051;
+    /* Adjust the z-index to be above the Popovermol */
+}
+
+.Popovermol .popover-body {
+    overflow: hidden;
+}
+
+/* Savings.css */
+
+.btn-width {
+    width: 200px; 
+  }
+  
+
+/* Adjust the z-index of the modal */
+.modal {
+    z-index: 1052;
+    /* Ensure the modal appears above the popover */
+}

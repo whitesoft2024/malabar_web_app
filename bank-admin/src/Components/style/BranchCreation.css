@@ -1,0 +1,48 @@
+.branchBox{
+    width:100%;
+    height:auto;
+    margin-top:50px;
+    border-radius:20px;
+    background-color: rgb(227, 226, 225);
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    border: 1.2px solid #464343; 
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);
+}
+.rcolor{
+    background-color: #bcbc76;
+}
+.colorc{
+    background-color: aqua;
+}
+.branchhead{
+    margin-top: 20px;
+    width: 100%;
+    height: 50px;
+    background-color: #0072aa;
+    border-radius: 5px;
+}
+.labels{
+    width: 100%;
+}
+.btns{
+    background-color: #0072aa;
+    width: 100px;
+    height: 40px;
+    margin: 10px;
+    color: aliceblue;
+    align-items: center;
+    border-radius:  8px;
+    margin-top: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+.btns:hover{
+    background-color:#1c4e80;
+    color: #f1f1f1;
+}
+
+Link{
+    color: inherit; 
+    text-decoration: none;   }
+  
